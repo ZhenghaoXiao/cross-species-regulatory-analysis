@@ -206,5 +206,67 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-
 .DS_Store
+*.pdf
+
+# Bioinformatics data and derived genomics files
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bai
+*.sam
+*.cram
+*.crai
+*.bedGraph
+*.bigWig
+*.bw
+*.narrowPeak
+*.broadPeak
+*.bb
+*.2bit
+*.fa
+*.fa.gz
+*.fasta
+*.fasta.gz
+*.fna
+*.fna.gz
+*.fai
+*.gff
+*.gff3
+*.gtf
+*.bed.gz
+
+# Archives and bulky intermediates
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.bz2
+*.xz
+*.zip
+
+# Cluster and temporary outputs
+slurm-*.out
+*.err
+logs/
+scratch/
+tmp/
+**/tmp/
+**/.snakemake/
+**/.nextflow/
+
+# R / notebook artifacts
+.Rhistory
+.RData
+.Rproj.user/
+
+# Keep tracked project documents and metadata
+!README.md
+!01.data/**/*.tsv
+!01.data/**/*.csv
+!01.data/**/*.txt
+!01.data/**/*.md
+!01.data/**/*.yaml
+!01.data/**/*.yml
