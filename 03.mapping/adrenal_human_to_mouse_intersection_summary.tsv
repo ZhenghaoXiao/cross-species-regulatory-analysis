@@ -1,0 +1,7 @@
+set	count
+mapped_human_total	99076
+native_mouse_total	48263
+mapped_human_shared_with_mouse	35321
+mapped_human_no_mouse_overlap	63755
+mouse_shared_with_human_mapped	27967
+mouse_no_human_mapped_overlap	20296

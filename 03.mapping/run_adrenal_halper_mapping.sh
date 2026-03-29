@@ -8,9 +8,7 @@ hal_bin="/ocean/projects/bio230007p/xhu15/tools/hal/bin"
 halper_repo="/ocean/projects/bio230007p/xhu15/tools/halLiftover-postprocessing"
 halper_script="${halper_repo}/halper_map_peak_orthologs.sh"
 
-ln -sf $(command -v python3) ${mapping_dir}/python
-
-export PATH=${hal_bin}:${mapping_dir}:${PATH}
+export PATH=${hal_bin}:${PATH}
 export PYTHONPATH=${halper_repo}:${PYTHONPATH:-}
 
 ${hal_bin}/halStats --genomes ${hal_file}
@@ -21,12 +19,4 @@ bash ${halper_script} \
   -s Human \
   -t Mouse \
   -n human_adrenal_idr_optimal \
-  -c ${hal_file}
-
-bash ${halper_script} \
-  -b ${mapping_dir}/mouse_adrenal_idr_optimal.mapping_preprocess.bed.gz \
-  -o ${mapping_dir} \
-  -s Mouse \
-  -t Human \
-  -n mouse_adrenal_idr_optimal \
   -c ${hal_file}
