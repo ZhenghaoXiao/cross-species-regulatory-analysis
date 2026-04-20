@@ -1,44 +1,158 @@
 # Cross-Species Regulatory Analysis
 
-Course project repository for 03-713 Bioinformatics Data Integration Practicum (Spring 2026). This team analyzes cross-species conservation of transcriptional regulatory activity using human and mouse open chromatin data from adrenal gland and ovary.
+This repository contains a reproducible analysis workflow for the 03-713 Bioinformatics Data Integration Practicum final project. The project compares human and mouse open chromatin in adrenal gland ATAC-seq data to identify shared and species-specific regulatory regions, annotate biological processes, classify regions as promoters or enhancers, and run motif enrichment analyses.
 
-## Project Overview
+The final downstream workflow focuses on adrenal gland because it was selected after quality control of the assigned adrenal gland and ovary datasets.
 
-The project is designed around six required analyses from the course project description:
+## Analysis Goals
 
-1. Evaluate the quality of the human and mouse datasets for both assigned tissues.
-2. Map open chromatin regions between species and identify conserved versus species-specific accessibility.
-3. Identify candidate biological processes linked to open chromatin regions in each species, in shared regions, and in species-specific regions.
-4. Classify open chromatin regions into likely enhancers and promoters, then compare their conservation across species.
-5. Discover sequence motifs enriched in relevant peak sets.
-6. Build an automated command-line pipeline for Tasks 2 to 5 that runs on a Linux cluster.
+1. Evaluate dataset quality for human and mouse adrenal gland and ovary ATAC-seq data.
+2. Map adrenal open chromatin regions between human and mouse.
+3. Identify candidate biological processes associated with shared and species-specific open chromatin regions.
+4. Classify open chromatin regions into promoter-like and enhancer-like sets.
+5. Compare motif enrichment across shared and species-specific regulatory regions.
+6. Provide a command-line pipeline that runs Tasks 2 to 5 on Bridges-2.
 
-Task 1 should be completed for both tissues. Downstream analyses may focus on the tissue with the best-quality human and mouse datasets after the QC stage.
+## Repository Layout
 
-## Team Responsibilities
+The repository is organized as a numbered workflow. Each folder contains a local README with step-specific details.
 
-- Chester Xiao: Task 1 dataset QC for adrenal gland and ovary; primary workspace in `02.qc/`
-- Xingyu Hu: Task 2 cross-species mapping and regulatory conservation; primary workspace in `03.mapping/`
-- Lekhya Dommalapati: Task 3 biological process analysis; primary workspace in `04.biological_processes/`
-- Maitreyee Karne: Task 4 enhancer/promoter classification and conservation comparison; primary workspace in `05.promoter_enhancer/`
-- All team members: Task 5 motif analysis in `06.motifs/` and Task 6 pipeline development in `07.pipeline/`
+- `01.data/`: external data paths and selected input notes.
+- `02.qc/`: quality-control analysis and tissue-selection summary.
+- `03.mapping/`: cross-species mapping with HALPER and `bedtools`.
+- `04.biological_processes/`: rGREAT biological process enrichment.
+- `05.promoter_enhancer/`: promoter/enhancer classification using TSS windows.
+- `06.motifs/`: HOMER motif enrichment and motif summaries.
+- `07.pipeline/`: single-command downstream pipeline for Tasks 2 to 5.
+- `08.results/`: final polished outputs for the report and presentation.
 
-## Repository Structure
+## Dependencies
 
-This repository uses numbered top-level folders so the project reads like a bioinformatics workflow.
+The workflow was designed for the Bridges-2 Linux cluster environment.
 
-- `01.data/`: dataset manifests, sample sheets, metadata, Bridges-2 path notes, and small helper files. Large sequencing and reference files are not committed.
-- `02.qc/`: quality-control summaries, plots, scripts, and the decision on which tissue pair to use downstream.
-- `03.mapping/`: cross-species peak mapping, shared/open/closed region sets, and related code or outputs.
-- `04.biological_processes/`: biological process enrichment analyses for each species, shared regions, and species-specific regions.
-- `05.promoter_enhancer/`: promoter/enhancer classification and conservation comparison outputs.
-- `06.motifs/`: motif enrichment analyses for enhancers, promoters, and shared or species-specific peak sets.
-- `07.pipeline/`: cluster-runnable workflow code, configuration, and the single command entrypoint for Tasks 2 to 5.
-- `08.results/`: polished figures, tables, and report-ready integrated outputs.
+Command-line tools:
 
-## Data And Compute Environment
+- `bash`
+- `awk`, `sort`, `cut`, `wc`, `gzip`
+- `bedtools`
+- `HAL` tools, including `halStats` and `halLiftover`
+- `HALPER`
+- `HOMER`
+- `R`
+- `Python 3`
 
-Primary data and references are stored on Bridges-2 and should be referenced from this repository rather than copied into git.
+R packages:
+
+- `rGREAT`
+- `GenomicRanges`
+- `BiocManager`
+
+Python packages:
+
+- `pandas`
+- `matplotlib`
+
+Install the Python dependencies with:
+
+```bash
+pip install -r requirements.txt
+```
+
+`requirements.txt` only covers Python packages. HAL/HALPER, HOMER, bedtools, and R/Bioconductor packages should be installed or loaded through the cluster environment.
+
+## Installation Notes
+
+These commands are examples for setting up a compatible environment. On Bridges-2, some tools may already be available through modules or shared project directories.
+
+### Python Packages
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+### bedtools
+
+On Bridges-2:
+
+```bash
+module load bedtools/2.30.0
+```
+
+With conda:
+
+```bash
+conda install -c bioconda bedtools
+```
+
+### R and Bioconductor Packages
+
+Start R and install the required packages:
+
+```r
+install.packages("BiocManager")
+BiocManager::install(c("rGREAT", "GenomicRanges"))
+```
+
+The Task 3 script also loads `BiocManager` to help install `rGREAT` if it is missing.
+
+### HAL and HALPER
+
+HALPER depends on the HAL toolkit. In this project environment, HAL and HALPER were run from:
+
+```bash
+/ocean/projects/bio230007p/xhu15/tools/hal
+/ocean/projects/bio230007p/xhu15/tools/halLiftover-postprocessing
+```
+
+To install HALPER from source in another location:
+
+```bash
+git clone https://github.com/pfenninglab/halLiftover-postprocessing.git
+```
+
+Then make sure the HAL binaries are on `PATH` and HALPER is on `PYTHONPATH`:
+
+```bash
+export PATH=/path/to/hal/bin:$PATH
+export PYTHONPATH=/path/to/halLiftover-postprocessing:$PYTHONPATH
+```
+
+Check that HAL is visible:
+
+```bash
+halStats --help
+```
+
+### HOMER
+
+Install HOMER into a directory outside the repository:
+
+```bash
+mkdir -p /path/to/homer
+cd /path/to/homer
+curl -O http://homer.ucsd.edu/homer/configureHomer.pl
+perl configureHomer.pl -install
+perl configureHomer.pl -install mm10
+perl configureHomer.pl -install hg38
+```
+
+Add HOMER to `PATH`:
+
+```bash
+export PATH=/path/to/homer/bin:$PATH
+```
+
+When running the full pipeline, provide this HOMER directory with:
+
+```bash
+bash 07.pipeline/run_adrenal_pipeline.sh --homer /path/to/homer
+```
+
+## Input Data
+
+Large data and reference files are accessed directly from shared Bridges-2 project directories instead of being stored in GitHub.
+
+Default project paths:
 
 - Human ATAC-seq data: `/ocean/projects/bio230007p/ikaplow/HumanAtac`
 - Mouse ATAC-seq data: `/ocean/projects/bio230007p/ikaplow/MouseAtac`
@@ -47,48 +161,121 @@ Primary data and references are stored on Bridges-2 and should be referenced fro
 - Multi-species alignment: `/ocean/projects/bio230007p/ikaplow/Alignments`
 - TF motif data: `/ocean/projects/bio230007p/ikaplow/CIS-BP_2.00`
 
-All jobs for this project should be designed to run on a Linux cluster environment such as Bridges-2.
+The default adrenal inputs used by the pipeline are:
 
-## Workflow Overview
+- Human peaks: `/ocean/projects/bio230007p/ikaplow/HumanAtac/AdrenalGland/peak/idr_reproducibility/idr.optimal_peak.narrowPeak.gz`
+- Mouse peaks: `/ocean/projects/bio230007p/ikaplow/MouseAtac/AdrenalGland/peak/idr_reproducibility/idr.optimal_peak.narrowPeak.gz`
+- HAL alignment: `/ocean/projects/bio230007p/ikaplow/Alignments/10plusway-master.hal`
+- Human TSS BED: `/ocean/projects/bio230007p/ikaplow/HumanGenomeInfo/gencode.v27.annotation.protTranscript.TSSsWithStrand_sorted.bed`
+- Mouse TSS BED: `/ocean/projects/bio230007p/ikaplow/MouseGenomeInfo/gencode.vM15.annotation.protTranscript.geneNames_TSSWithStrand_sorted.bed`
 
-The expected analysis flow is:
+## Pipeline Overview
 
-`01.data -> 02.qc -> 03.mapping -> 04.biological_processes -> 05.promoter_enhancer -> 06.motifs -> 07.pipeline -> 08.results`
+The automated pipeline performs the downstream adrenal analysis in this order:
 
-Typical progression:
+1. Preprocess human and mouse adrenal peak files into sorted BED-like inputs.
+2. Map human adrenal peaks to mouse coordinates with HALPER.
+3. Identify shared and species-specific open chromatin regions by intersecting mapped human peaks with native mouse peaks.
+4. Recover original human-coordinate peak sets for human-side downstream analyses.
+5. Run rGREAT biological process enrichment.
+6. Classify peaks as promoters or enhancers using +/-2 kb TSS windows.
+7. Stage promoter/enhancer peak sets for HOMER.
+8. Run HOMER motif enrichment and summarize known motif results.
 
-1. Record sample metadata and dataset locations in `01.data/`.
-2. Evaluate dataset quality for human and mouse adrenal gland and ovary in `02.qc/`.
-3. Select the better tissue pair for downstream analysis if needed.
-4. Perform cross-species mapping and define shared versus species-specific open chromatin sets in `03.mapping/`.
-5. Run biological process enrichment in `04.biological_processes/`.
-6. Split peaks into likely promoters and enhancers in `05.promoter_enhancer/`.
-7. Run motif analyses in `06.motifs/`.
-8. Consolidate reusable workflow code in `07.pipeline/` so Tasks 2 to 5 can run in a single command.
-9. Copy report-ready summaries, figures, and tables to `08.results/`.
+## Usage: Full Pipeline
 
-## Expected Tools
+Run with default course-provided adrenal paths:
 
-The course materials specifically point to the following tools and resources:
+```bash
+sbatch 07.pipeline/run_adrenal_pipeline.slurm
+```
 
-- `bedtools`
-- `HALPER`
-- `rGREAT`
-- `HOMER`
+Run directly with explicit paths:
 
-Additional scripts may be written in Python, R, or shell as needed, but stable logic should move out of notebooks and into reusable scripts or pipeline code.
+```bash
+bash 07.pipeline/run_adrenal_pipeline.sh \
+  --human /path/to/human_adrenal.narrowPeak.gz \
+  --mouse /path/to/mouse_adrenal.narrowPeak.gz \
+  --hal /path/to/10plusway-master.hal \
+  --human-tss /path/to/human_tss.bed \
+  --mouse-tss /path/to/mouse_tss.bed \
+  --homer /path/to/homer
+```
 
-## Reproducibility Notes
+## Usage: Step-by-Step
 
-- Do not commit large raw data, genome files, BAM files, or other heavy intermediates.
-- Keep small metadata, configs, and method notes in the repo.
-- Organize files directly inside each task folder in whatever simple layout the team finds easiest.
-- Use `08.results/` for polished outputs that are ready for presentation or the final report.
-- The final automated workflow should run Tasks 2 to 5 with a single command on a Linux cluster where required tools are installed.
+Task 2, cross-species mapping:
 
----
+```bash
+bash 03.mapping/prepare_adrenal_mapping_preprocess.sh
+bash 03.mapping/run_adrenal_halper_mapping.sh
+bash 03.mapping/run_adrenal_bedtools_intersection.sh
+bash 03.mapping/recover_human_coordinate_peak_sets.sh
+```
 
-LLM was used for debugging and version control:
+Task 3, biological process enrichment:
+
+```bash
+cd 04.biological_processes
+Rscript run_rgreat.R
+python top10_GO_BP_Plot.py
+```
+
+Task 4, promoter/enhancer classification:
+
+```bash
+cd 05.promoter_enhancer
+bash classifyingpeaks.sh
+```
+
+Task 5, motif enrichment:
+
+```bash
+cd 06.motifs/downstream
+bash build_centered_beds.sh
+bash run_all.sh
+python3 summarize_known_motifs.py
+```
+
+The full pipeline script stages the required inputs between task folders before running these commands.
+
+## Main Outputs
+
+Task 2 outputs:
+
+- `03.mapping/adrenal_human_to_mouse_intersection_summary.tsv`
+- `03.mapping/human_adrenal_idr_optimal.human_specific.original_human_coordinates.bed.gz`
+- `03.mapping/human_adrenal_idr_optimal.shared.original_human_coordinates.bed.gz`
+- `03.mapping/mouse_adrenal_idr_optimal.no_human_mapped_overlap.bed.gz`
+- `03.mapping/mouse_adrenal_idr_optimal.shared_with_human_mapped.bed.gz`
+
+Task 3 outputs:
+
+- `04.biological_processes/results/*_BP_filtered.csv`
+- `04.biological_processes/results/plots_*.png`
+
+Task 4 outputs:
+
+- `05.promoter_enhancer/task4_results.csv`
+- `05.promoter_enhancer/figures/`
+
+Task 5 outputs:
+
+- `06.motifs/downstream/out_*/knownResults.txt`
+- `06.motifs/downstream/results_summary/motif_summary_overview.md`
+- `06.motifs/downstream/results_summary/*_top_by_qval.tsv`
+- `06.motifs/downstream/results_summary/*_top_by_delta.tsv`
+
+## Team
+
+- Chester Xiao: zhenghax@andrew.cmu.edu
+- Xingyu Hu: xingyuhu@andrew.cmu.edu
+- Lekhya Dommalapati: ldd@andrew.cmu.edu
+- Maitreyee Karne: mkarne@andrew.cmu.edu
+
+## LLM Use
+
+LLM assistance was used for debugging, documentation, and version-control support.
 
 [1] OpenAI, “GPT-5.4 Model,” OpenAI API. [Online]. Available: https://developers.openai.com/api/docs/models/gpt-5.4. [Accessed: Apr. 6, 2026].
 
