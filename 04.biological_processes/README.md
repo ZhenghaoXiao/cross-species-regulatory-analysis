@@ -1,19 +1,19 @@
 # Task 4: GO Biological Process Enrichment Analysis
 
 ## Overview
-This task performs Gene Ontology (GO) Biological Process enrichment analysis on open chromatin regions (OCRs) from human (hg38) and mouse (mm10) adrenal gland ATAC-seq data using the rGREAT package. Results are visualized as bar plots of the top 10 enriched terms by fold enrichment.
+This task performs Gene Ontology (GO) Biological Process enrichment analysis on open chromatin regions (OCRs) from human (hg38) and mouse (mm10) adrenal gland ATAC-seq data using the rGREAT package. The results are visualized as bar plots of the top 10 enriched terms by fold enrichment for Shared, Human All, Human Specific Mouse All, and Mouse Specific.
 
 ## Input Files
-- `human_adrenal_idr_optimal.human_specific.original_human_coordinates.bed.gz` — human-specific OCRs in hg38 coordinates
-- `human_adrenal_idr_optimal.shared.original_human_coordinates.bed.gz` — shared OCRs in hg38 coordinates
-- `mouse_adrenal_idr_optimal.no_human_mapped_overlap.bed` — mouse-specific OCRs in mm10 coordinates
-- `mouse_adrenal_idr_optimal.shared_with_human_mapped.bed` — shared OCRs in mm10 coordinates
+- `human_adrenal_idr_optimal.HumanToMouse.no_mouse_native_overlap.bed` -> human-specific OCRs in hg38 coordinates
+- `human_adrenal_idr_optimal.HumanToMouse.shared_with_mouse_native.bed` -> shared OCRs in hg38 coordinates
+- `mouse_adrenal_idr_optimal.no_human_mapped_overlap.bed` -> mouse-specific OCRs in mm10 coordinates
+- `mouse_adrenal_idr_optimal.shared_with_human_mapped.bed` -> shared OCRs in mm10 coordinates
 
 ## Scripts
-- `run_rgreat.R` — runs GREAT enrichment analysis for all OCR sets and saves filtered results
-- `run.sbatch` — SLURM job script to run `run_rgreat.R` on Bridges-2
-- `top10_GO_BP_Plot.py` — plots top 10 enriched GO BP terms for each OCR set
-- `run_plot.sbatch` — SLURM job script to run `top10_GO_BP_Plot.py` on Bridges-2
+- `run_rgreat.R` -> runs GREAT enrichment analysis for all OCR sets and saves filtered results
+- `run.sbatch` -> SLURM job script to run `run_rgreat.R` on Bridges-2
+- `top10_GO_BP_Plot.py` -> plots top 10 enriched GO BP terms for each OCR set
+- `run_plot.sbatch` -> SLURM job script to run `top10_GO_BP_Plot.py` on Bridges-2
 
 ## How to Run
 Run the enrichment analysis first, then the plotting script:
@@ -41,3 +41,8 @@ OCR sets were submitted to GREAT using the `submitGreatJob()` function with the 
 ## Dependencies
 - R with `rGREAT`, `GenomicRanges`, `BiocManager`
 - Python with `pandas`, `matplotlib`
+
+## Results Preview
+![Human All, Mouse All, and Shared OCRs](results/plots_combined.png)
+![Human Specific OCRs](results/plots_human_specific.png)
+![Mouse Specific OCRs](results/plots_mouse_specific.png)
