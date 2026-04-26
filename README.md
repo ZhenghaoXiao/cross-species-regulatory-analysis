@@ -17,6 +17,7 @@ The final downstream workflow focuses on adrenal gland because it was selected a
     - [R and Bioconductor Packages](#r-and-bioconductor-packages)
     - [HAL and HALPER](#hal-and-halper)
     - [HOMER](#homer)
+  - [Data Sources](#data-sources)
   - [Input Data](#input-data)
   - [Pipeline Overview](#pipeline-overview)
   - [Usage: Full Pipeline](#usage-full-pipeline)
@@ -24,7 +25,7 @@ The final downstream workflow focuses on adrenal gland because it was selected a
   - [Main Outputs](#main-outputs)
   - [Team](#team)
   - [LLM Use](#llm-use)
-- [Citation](#citation)
+  - [Citation](#citation)
 
 ## Analysis Goals
 
@@ -170,6 +171,10 @@ When running the full pipeline, provide this HOMER directory with:
 bash 07.pipeline/run_adrenal_pipeline.sh --homer /path/to/homer
 ```
 
+## Data Sources
+
+Human adrenal gland ATAC-seq data were obtained from the [ENCODE portal](https://www.encodeproject.org/) using accession numbers ENCSR241OBO and ENCSR864ADD. Mouse adrenal gland ATAC-seq data were obtained from the public dataset reported by Liu et al. in *Scientific Data*: [An ATAC-seq atlas of chromatin accessibility in mouse tissues](https://doi.org/10.1038/s41597-019-0071-0).
+
 ## Input Data
 
 Large data and reference files are accessed directly from shared Bridges-2 project directories instead of being stored in GitHub.
@@ -224,6 +229,8 @@ bash 07.pipeline/run_adrenal_pipeline.sh \
   --homer /path/to/homer
 ```
 
+Check [Task 7](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/tree/main/07.pipeline) for details.
+
 ## Usage: Step-by-Step
 
 [Task 2, cross-species mapping:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/03.mapping/)
@@ -247,7 +254,6 @@ python top10_GO_BP_Plot.py
 
 ```bash
 cd 05.promoter_enhancer
-bash classifyingpeaks.sh
 bash classifyingpeaks.sh
 ```
 
@@ -304,9 +310,7 @@ LLM assistance was used for debugging, documentation, and version-control suppor
 
 [2] OpenAI, “Codex,” OpenAI Developers. [Online]. Available: https://developers.openai.com/codex/. [Accessed: Apr. 6, 2026].
 
-[3] Anthropic, "Claude," Anthropic. [Online]. Available: https://claude.ai. [Accessed: Apr. 2026].
-
-# Citation
+## Citation
 
 You can cite this project as:
 
