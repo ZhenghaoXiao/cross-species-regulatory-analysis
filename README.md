@@ -4,6 +4,28 @@ This repository contains a reproducible analysis workflow for the 03-713 Bioinfo
 
 The final downstream workflow focuses on adrenal gland because it was selected after quality control of the assigned adrenal gland and ovary datasets.
 
+## Table of Contents
+
+- [Cross-Species Regulatory Analysis](#cross-species-regulatory-analysis)
+  - [Table of Contents](#table-of-contents)
+  - [Analysis Goals](#analysis-goals)
+  - [Repository Layout](#repository-layout)
+  - [Dependencies](#dependencies)
+  - [Installation Notes](#installation-notes)
+    - [Python Packages](#python-packages)
+    - [bedtools](#bedtools)
+    - [R and Bioconductor Packages](#r-and-bioconductor-packages)
+    - [HAL and HALPER](#hal-and-halper)
+    - [HOMER](#homer)
+  - [Input Data](#input-data)
+  - [Pipeline Overview](#pipeline-overview)
+  - [Usage: Full Pipeline](#usage-full-pipeline)
+  - [Usage: Step-by-Step](#usage-step-by-step)
+  - [Main Outputs](#main-outputs)
+  - [Team](#team)
+  - [LLM Use](#llm-use)
+- [Citation](#citation)
+
 ## Analysis Goals
 
 1. Evaluate dataset quality for human and mouse adrenal gland and ovary ATAC-seq data.
