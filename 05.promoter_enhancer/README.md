@@ -144,3 +144,7 @@ If using this pipeline in a manuscript, please cite:
 - Quinlan, A. R. & Hall, I. M. BEDTools: A flexible suite of utilities for comparing genomic features. *Bioinformatics* 26, 841-842 (2010).
 - Frankish, A. et al. GENCODE 2021. *Nucleic Acids Research* 49, D916-D923 (2021).
 - Villar, D. et al. Enhancer evolution across 20 mammalian species. *Cell* 160, 554-566 (2015).
+
+---
+
+[Go back to main.](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis#usage-step-by-step)

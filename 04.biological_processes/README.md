@@ -46,3 +46,7 @@ OCR sets were submitted to GREAT using the `submitGreatJob()` function with the 
 <img src="results/plots_combined.png" width="70%"/>
 <img src="results/plots_human_specific.png" width="70%"/>
 <img src="results/plots_mouse_specific.png" width="70%"/>
+
+---
+
+[Go back to main.](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis#usage-step-by-step)

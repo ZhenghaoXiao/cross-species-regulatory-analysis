@@ -26,3 +26,7 @@ Optional flags:
 - `--skip-homer`: skip the Task 5 HOMER motif step.
 
 The pipeline stages intermediate files between task folders, runs the existing task scripts, and keeps the main analysis order consistent with the project workflow.
+
+---
+
+[Go back to main.](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis#usage-step-by-step)

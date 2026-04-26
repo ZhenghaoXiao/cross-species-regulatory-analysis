@@ -204,7 +204,7 @@ bash 07.pipeline/run_adrenal_pipeline.sh \
 
 ## Usage: Step-by-Step
 
-[Task 2, cross-species mapping:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/03.mapping/README.md)
+[Task 2, cross-species mapping:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/03.mapping/)
 
 ```bash
 bash 03.mapping/prepare_adrenal_mapping_preprocess.sh
@@ -213,7 +213,7 @@ bash 03.mapping/run_adrenal_bedtools_intersection.sh
 bash 03.mapping/recover_human_coordinate_peak_sets.sh
 ```
 
-[Task 3, biological process enrichment:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/04.biological_processes/README.md)
+[Task 3, biological process enrichment:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/04.biological_processes/)
 
 ```bash
 cd 04.biological_processes
@@ -221,7 +221,7 @@ Rscript run_rgreat.R
 python top10_GO_BP_Plot.py
 ```
 
-[Task 4, promoter/enhancer classification:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/05.promoter_enhancer/README.md)
+[Task 4, promoter/enhancer classification:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/05.promoter_enhancer/)
 
 ```bash
 cd 05.promoter_enhancer
@@ -229,7 +229,7 @@ bash classifyingpeaks.sh
 bash classifyingpeaks.sh
 ```
 
-[Task 5, motif enrichment:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/06.motifs/README.md)
+[Task 5, motif enrichment:](https://github.com/BioinformaticsDataPracticum2026/cross-species-regulatory-analysis/blob/main/06.motifs/)
 
 ```bash
 cd 06.motifs/downstream
